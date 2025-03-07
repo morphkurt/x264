@@ -112,6 +112,8 @@ const x264_cpu_name_t x264_cpu_names[] =
 #include <setjmp.h>
 static sigjmp_buf jmpbuf;
 static volatile sig_atomic_t canjump = 0;
+int x264_cpu_detect_cgroups(void);
+
 
 /**
  * Detects CPU count from cgroups if available
