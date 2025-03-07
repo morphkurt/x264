@@ -312,7 +312,7 @@ uint32_t x264_cpu_detect( void )
 
 #if SYS_MACOSX || SYS_OPENBSD || SYS_FREEBSD || SYS_NETBSD
 
-static int get_cpu_count_cgroup()
+uint32_t int get_cpu_count_cgroup( void )
 {
     char path[256] = {0};
     int quota_fd = -1;
