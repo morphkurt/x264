@@ -596,7 +596,14 @@ int cgroups_cpu_count = 0;
     if( sched_getaffinity( 0, sizeof(p_aff), &p_aff ) )
         return 1;
 #if HAVE_CPU_COUNT
-    return CPU_COUNT(&p_aff);
+    // Check for cgroups limitations
+    cgroups_cpu_count = x264_cpu_detect_cgroups();
+
+    // Use the lower of the two values if cgroups detection succeeded
+    if( cgroups_cpu_count > 0 )
+        return cgroups_cpu_count;
+    else
+        return CPU_COUNT(&p_aff);
 #else
     int np = 0;
     for( size_t bit = 0; bit < 8 * sizeof(p_aff); bit++ )
@@ -622,14 +629,5 @@ int cgroups_cpu_count = 0;
 #else
     return 1;
 #endif
-
-    // Check for cgroups limitations
-    cgroups_cpu_count = x264_cpu_detect_cgroups();
-
-    // Use the lower of the two values if cgroups detection succeeded
-    if( cgroups_cpu_count > 0 && cgroups_cpu_count < system_cpu_count )
-        return cgroups_cpu_count;
-    else
-        return system_cpu_count;
 
 }
