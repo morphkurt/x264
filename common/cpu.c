@@ -118,7 +118,7 @@ static volatile sig_atomic_t canjump = 0;
  * Returns the number of CPUs available according to cgroups limitations
  * Returns 0 if cgroups detection fails or is not applicable
  */
-static int x264_cpu_detect_cgroups( void )
+int x264_cpu_detect_cgroups( void )
 {
     int cpu_count = 0;
     char buf[256];
